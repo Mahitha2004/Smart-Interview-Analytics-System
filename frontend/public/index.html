@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Interview Analytics — Professional Dashboard</title>
+    <meta name="description" content="AI-powered interview performance analysis. Evaluate eye contact, posture, voice quality, and answer relevance with real-time analytics.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#22d3ee" />
+                <stop offset="100%" stop-color="#a78bfa" />
+            </linearGradient>
+            <linearGradient id="cyanGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#22d3ee" />
+                <stop offset="100%" stop-color="#06b6d4" />
+            </linearGradient>
+            <linearGradient id="violetGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#a78bfa" />
+                <stop offset="100%" stop-color="#8b5cf6" />
+            </linearGradient>
+            <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#34d399" />
+                <stop offset="100%" stop-color="#10b981" />
+            </linearGradient>
+        </defs>
+    </svg>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loadingStatus">Analyzing Interview</div>
+            <div class="loading-substatus" id="loadingSubstatus">Initializing modules...</div>
+            <div class="loading-bar">
+                <div class="loading-bar-fill" id="loadingProgress"></div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="brand-icon">SA</div>
+                    <span class="brand-text">Smart Analytics</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-label">Navigation</div>
+                <button class="nav-item active" data-view="dashboard" id="navDashboard">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </button>
+                <button class="nav-item" data-view="upload" id="navUpload">
+                    <span class="nav-icon">📤</span>
+                    New Analysis
+                </button>
+                <button class="nav-item" data-view="results" id="navResults">
+                    <span class="nav-icon">📈</span>
+                    Results
+                </button>
+                <div class="nav-label" style="margin-top:auto">System</div>
+                <button class="nav-item" id="navApiStatus">
+                    <span class="nav-icon">🔗</span>
+                    API Status
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar">U</div>
+                    <div class="user-info">
+                        <div class="user-name">Analyst</div>
+                        <div class="user-role">Interview Coach</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" id="headerApiBtn">
+                        <span id="apiDot" style="width:7px;height:7px;border-radius:50%;background:#555;display:inline-block"></span>
+                        API
+                    </button>
+                    <button class="header-btn" onclick="navigateTo('upload')">+ New Analysis</button>
+                </div>
+            </header>
+            <div class="page-content">
+                <div class="view active" id="viewDashboard">
+                    <div class="dashboard-hero">
+                        <div class="hero-badge">
+                            <span class="hero-badge-dot"></span>
+                            AI-Powered Analytics Engine
+                        </div>
+                        <h1>Master Your Interview<br>Performance</h1>
+                        <p>Upload an interview video and receive comprehensive AI-driven analysis of your visual presence, vocal dynamics, and answer quality — all in seconds.</p>
+                        <div class="hero-actions">
+                            <button class="btn-primary" onclick="navigateTo('upload')">
+                                Start Analysis →
+                            </button>
+                            <button class="btn-secondary" onclick="loadDemoData()">
+                                View Demo Results
+                            </button>
+                        </div>
+                    </div>
+                    <div class="quick-stats">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon cyan">👁️</div>
+                            </div>
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Analysis Dimensions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon violet">🎯</div>
+                            </div>
+                            <div class="stat-value">15+</div>
+                            <div class="stat-label">Tracked Metrics</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon green">⚡</div>
+                            </div>
+                            <div class="stat-value">AI</div>
+                            <div class="stat-label">Powered Engine</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon amber">📄</div>
+                            </div>
+                            <div class="stat-value">PDF</div>
+                            <div class="stat-label">Export Reports</div>
+                        </div>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card" onclick="navigateTo('upload')">
+                            <div class="feature-icon" style="background:rgba(34,211,238,0.1);color:var(--accent-cyan)">👁️</div>
+                            <h3>Visual Presence</h3>
+                            <p>AI analysis of eye contact, posture alignment, head stability, and overall confidence projection through computer vision.</p>
+                        </div>
+                        <div class="feature-card" onclick="navigateTo('upload')">
+                            <div class="feature-icon" style="background:rgba(167,139,250,0.1);color:var(--accent-violet)">🎙️</div>
+                            <h3>Vocal Dynamics</h3>
+                            <p>Deep audio analysis covering speaking pace, voice clarity, pitch variation, strategic pausing, and tonal consistency.</p>
+                        </div>
+                        <div class="feature-card" onclick="navigateTo('upload')">
+                            <div class="feature-icon" style="background:rgba(52,211,153,0.1);color:var(--accent-green)">💬</div>
+                            <h3>Semantic Quality</h3>
+                            <p>NLP-driven evaluation of content relevance, answer completeness, logical coherence, and language quality with transcription.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="view" id="viewUpload">
+                    <div class="upload-container">
+                        <div class="upload-header">
+                            <h2>New Interview Analysis</h2>
+                            <p>Upload your interview recording for comprehensive AI evaluation</p>
+                        </div>
+                        <form id="uploadForm" class="upload-card">
+                            <div class="drop-zone" id="dropArea">
+                                <input type="file" id="videoInput" accept="video/*" required>
+                                <div class="drop-icon">↑</div>
+                                <div class="drop-title">Drop video file here</div>
+                                <div class="drop-subtitle">or click to browse · MP4, MOV, WebM up to 500MB</div>
+                                <div class="file-name-display" id="fileNameDisplay"></div>
+                            </div>
+                            <div class="upload-fields">
+                                <div class="field-group">
+                                    <label class="field-label" for="questionInput">Interview Question (Optional)</label>
+                                    <textarea id="questionInput" class="field-input" placeholder="What question are you answering in this recording?" rows="2"></textarea>
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label" for="keywordsInput">Target Keywords (Optional)</label>
+                                    <input type="text" id="keywordsInput" class="field-input" placeholder="Leadership, strategy, problem-solving, teamwork...">
+                                </div>
+                            </div>
+                            <div class="upload-actions">
+                                <button type="submit" class="btn-analyze" id="analyzeBtn">
+                                    ⚡ Initialize Analysis
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="view" id="viewResults">
+                    <div class="score-hero">
+                        <div class="score-ring-card">
+                            <div class="score-ring-wrap">
+                                <svg class="score-ring-svg" viewBox="0 0 200 200">
+                                    <circle class="score-ring-bg" cx="100" cy="100" r="90"></circle>
+                                    <circle class="score-ring-fg" id="scoreRing" cx="100" cy="100" r="90"></circle>
+                                </svg>
+                                <div class="score-ring-value">
+                                    <div class="score-number" id="overallScore">0</div>
+                                    <div class="score-denominator">/100</div>
+                                </div>
+                            </div>
+                            <div class="score-label-badge strong" id="scoreBadge">Analyzing...</div>
+                        </div>
+                        <div class="score-breakdown-card">
+                            <div class="breakdown-item">
+                                <div class="breakdown-ring">
+                                    <svg viewBox="0 0 72 72">
+                                        <circle class="breakdown-ring-bg" cx="36" cy="36" r="30"></circle>
+                                        <circle class="breakdown-ring-fg cyan" id="ringVisual" cx="36" cy="36" r="30"></circle>
+                                    </svg>
+                                    <div class="breakdown-ring-value" id="visualRingVal">0</div>
+                                </div>
+                                <div class="breakdown-info">
+                                    <h4>Visual Presence</h4>
+                                    <p>Eye contact, posture & confidence</p>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-ring">
+                                    <svg viewBox="0 0 72 72">
+                                        <circle class="breakdown-ring-bg" cx="36" cy="36" r="30"></circle>
+                                        <circle class="breakdown-ring-fg violet" id="ringVocal" cx="36" cy="36" r="30"></circle>
+                                    </svg>
+                                    <div class="breakdown-ring-value" id="vocalRingVal">0</div>
+                                </div>
+                                <div class="breakdown-info">
+                                    <h4>Vocal Dynamics</h4>
+                                    <p>Clarity, pacing & tone quality</p>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-ring">
+                                    <svg viewBox="0 0 72 72">
+                                        <circle class="breakdown-ring-bg" cx="36" cy="36" r="30"></circle>
+                                        <circle class="breakdown-ring-fg green" id="ringContent" cx="36" cy="36" r="30"></circle>
+                                    </svg>
+                                    <div class="breakdown-ring-value" id="contentRingVal">0</div>
+                                </div>
+                                <div class="breakdown-info">
+                                    <h4>Semantic Quality</h4>
+                                    <p>Relevance, coherence & language</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metrics-section">
+                        <div class="metrics-section-title">01 · Visual Presence Metrics</div>
+                        <div class="metrics-cards">
+                            <div class="metric-card">
+                                <div class="metric-card-label">Eye Contact</div>
+                                <div class="metric-card-value"><span id="metricEyeContact">0</span><span class="unit">%</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill cyan" id="barEyeContact"></div></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-card-label">Posture Score</div>
+                                <div class="metric-card-value"><span id="metricPosture">0</span><span class="unit">%</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill cyan" id="barPosture"></div></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-card-label">Confidence Level</div>
+                                <div class="metric-card-value"><span id="metricConfidence">0</span><span class="unit">%</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill cyan" id="barConfidence"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metrics-section">
+                        <div class="metrics-section-title">02 · Vocal Dynamics Metrics</div>
+                        <div class="metrics-cards">
+                            <div class="metric-card">
+                                <div class="metric-card-label">Voice Clarity</div>
+                                <div class="metric-card-value"><span id="metricClarity">0</span><span class="unit">/100</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill violet" id="barClarity"></div></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-card-label">Speaking Pace</div>
+                                <div class="metric-card-value"><span id="metricSpeed">0</span><span class="unit">WPM</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill violet" id="barSpeed"></div></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-card-label">Silence Ratio</div>
+                                <div class="metric-card-value"><span id="metricSilence">0</span><span class="unit">%</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill violet" id="barSilence"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metrics-section">
+                        <div class="metrics-section-title">03 · Semantic Quality Metrics</div>
+                        <div class="metrics-cards">
+                            <div class="metric-card">
+                                <div class="metric-card-label">Content Relevance</div>
+                                <div class="metric-card-value"><span id="metricContent">0</span><span class="unit">/100</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill green" id="barContent"></div></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-card-label">Coherence</div>
+                                <div class="metric-card-value"><span id="metricCoherence">0</span><span class="unit">/100</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill green" id="barCoherence"></div></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-card-label">Word Count</div>
+                                <div class="metric-card-value"><span id="metricWordCount">0</span><span class="unit">words</span></div>
+                                <div class="metric-bar-track"><div class="metric-bar-fill green" id="barWordCount"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="insight-card-header">
+                                <div class="insight-card-title">📝 Transcription</div>
+                                <button class="copy-btn" onclick="copyTranscript()">📋 Copy</button>
+                            </div>
+                            <div class="insight-card-body">
+                                <div class="transcript-text" id="transcriptText">
+                                    No transcript available yet. Run an analysis to see the transcription here.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-card-header">
+                                <div class="insight-card-title">💡 Actionable Recommendations</div>
+                            </div>
+                            <div class="insight-card-body">
+                                <ul class="recommendation-list" id="recommendationsList">
+                                    <li class="recommendation-item">
+                                        <span class="rec-icon">📌</span>
+                                        Run an analysis to receive personalized recommendations.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="export-bar">
+                        <div class="export-info">
+                            <span class="export-info-icon">📦</span>
+                            <div class="export-info-text">
+                                <h4>Export Analysis</h4>
+                                <p>Download your results as a report</p>
+                            </div>
+                        </div>
+                        <div class="export-buttons">
+                            <button class="btn-export json" onclick="exportJSON()">{ } JSON</button>
+                            <button class="btn-export pdf" onclick="exportPDF()">📄 PDF Report</button>
+                            <button class="btn-export new-analysis" onclick="navigateTo('upload')">+ New Analysis</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

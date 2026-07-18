@@ -1,0 +1,15 @@
+{
+  "name": "smart-interview-analytics",
+  "version": "1.0.0",
+  "description": "Smart Interview Analytics System - Comprehensive interview performance analysis",
+  "keywords": ["interview", "analytics", "video-analysis", "speech-recognition"],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
