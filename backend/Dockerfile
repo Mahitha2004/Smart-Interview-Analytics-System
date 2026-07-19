@@ -2,12 +2,14 @@ FROM python:3.10-slim
 
 # Install system dependencies required for OpenCV and MoviePy (ffmpeg)
 # Added build-essential and pkg-config for scipy/numpy compilation if needed
+# Added libsndfile1 for librosa/soundfile audio processing
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libgl1-mesa-glx \
     libglib2.0-0 \
     build-essential \
     pkg-config \
+    libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
@@ -30,5 +32,5 @@ RUN mkdir -p uploads reports && chmod 777 uploads reports
 # Expose the port (Render sets this automatically, but good practice)
 EXPOSE 5000
 
-# Run the application with gunicorn
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120 run:app"]
+# Run the application with gunicorn (using 1 worker and threads to save memory on Render free tier)
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 1 --threads 4 --timeout 120 run:app"]
