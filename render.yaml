@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: interview-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: PORT
+        value: 5000
+
+  - type: web
+    name: interview-frontend
+    env: static
+    buildCommand: "sed -i 's|http://localhost:5000|https://'\"$BACKEND_URL\"'|g' frontend/public/script.js"
+    staticPublishPath: ./frontend/public
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: interview-backend
+          property: host

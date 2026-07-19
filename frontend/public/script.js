@@ -1,5 +1,7 @@
 let currentView = 'dashboard';
 let lastAnalysisData = null;  
+const API_BASE_URL = 'http://localhost:5000';
+
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initSidebar();
@@ -57,7 +59,7 @@ async function checkApiHealth() {
     const btn = document.getElementById('headerApiBtn');
     const navBtn = document.getElementById('navApiStatus');
     try {
-        const res = await fetch('http://localhost:5000/api/health', { signal: AbortSignal.timeout(3000) });
+        const res = await fetch(`${API_BASE_URL}/api/health`, { signal: AbortSignal.timeout(3000) });
         if (res.ok) {
             if (dot) dot.style.background = '#34d399';
             if (btn) btn.title = 'API Connected';
@@ -166,7 +168,7 @@ async function analyzeVideo(videoFile) {
         }
     }, 800);
     try {
-        const response = await fetch('http://localhost:5000/api/analyze', {
+        const response = await fetch(`${API_BASE_URL}/api/analyze`, {
             method: 'POST',
             body: formData
         });
@@ -385,7 +387,7 @@ async function exportPDF() {
     }
     showToast('Generating PDF report...', 'info');
     try {
-        const response = await fetch('http://localhost:5000/api/generate-report?format=pdf', {
+        const response = await fetch(`${API_BASE_URL}/api/generate-report?format=pdf`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(lastAnalysisData)
