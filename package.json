@@ -2,7 +2,12 @@
   "name": "smart-interview-analytics",
   "version": "1.0.0",
   "description": "Smart Interview Analytics System - Comprehensive interview performance analysis",
-  "keywords": ["interview", "analytics", "video-analysis", "speech-recognition"],
+  "keywords": [
+    "interview",
+    "analytics",
+    "video-analysis",
+    "speech-recognition"
+  ],
   "author": "",
   "license": "MIT",
   "repository": {
@@ -11,5 +16,15 @@
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "esbuild frontend/src/index.jsx --bundle --outfile=frontend/public/script.js --watch"
+  },
+  "dependencies": {
+    "esbuild": "^0.28.2",
+    "lucide-react": "^1.56.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   }
 }

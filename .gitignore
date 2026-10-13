@@ -42,3 +42,5 @@ reports/
 *.log
 .env
 venv/ 
+node_modules/
+dist/
