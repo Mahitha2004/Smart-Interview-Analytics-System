@@ -3,6 +3,7 @@
   "services": {
     "interview-frontend": {
       "root": ".",
+      "framework": null,
       "buildCommand": "npm run build",
       "outputDirectory": "dist"
     },
