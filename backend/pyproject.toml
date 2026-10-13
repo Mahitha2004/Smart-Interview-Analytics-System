@@ -1,2 +1,31 @@
+[project]
+name = "interview-backend"
+version = "1.0.0"
+description = "Smart Interview Analytics System Backend"
+requires-python = ">=3.10"
+dependencies = [
+    "Flask>=3.0.3",
+    "Flask-Cors>=4.0.0",
+    "gunicorn>=23.0.0",
+    "Werkzeug>=3.0.3",
+    "numpy>=1.26.4",
+    "scipy>=1.13.1",
+    "scikit-learn>=1.5.1",
+    "opencv-python-headless>=4.10.0.84",
+    "mediapipe>=0.10.14",
+    "SpeechRecognition>=3.10.0",
+    "nltk>=3.8.1",
+    "moviepy>=2.0.0",
+    "imageio>=2.37.0",
+    "imageio-ffmpeg>=0.6.0",
+    "proglog>=0.1.10",
+    "reportlab>=4.1.0",
+    "pydub>=0.25.1",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.3",
+    "soundfile>=0.12.1",
+    "soxr>=0.5.0",
+]
+
 [tool.vercel]
-entrypoint = "run:app"
+entrypoint = "run.py"
