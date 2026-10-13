@@ -17,8 +17,9 @@ const getInitialApiUrl = () => {
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return 'http://localhost:5000';
     }
+    return '';
   }
-  return API_BASE_URL;
+  return '';
 };
 
 export function App() {

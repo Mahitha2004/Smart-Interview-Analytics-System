@@ -24830,7 +24830,6 @@
   };
 
   // frontend/src/App.jsx
-  var API_BASE_URL = "http://localhost:5000";
   var getInitialApiUrl = () => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("interview_analytics_api_url");
@@ -24839,8 +24838,9 @@
       if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
         return "http://localhost:5000";
       }
+      return "";
     }
-    return API_BASE_URL;
+    return "";
   };
   function App() {
     const [activeTab, setActiveTab] = (0, import_react10.useState)("overview");
