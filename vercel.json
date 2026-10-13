@@ -1,29 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "interview-frontend": {
-      "root": ".",
-      "buildCommand": "npm run build",
-      "outputDirectory": "dist"
-    },
-    "interview-backend": {
-      "root": "backend",
-      "framework": "flask",
-      "entrypoint": "run.py"
-    }
-  },
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": {
-        "service": "interview-backend"
-      }
-    },
-    {
       "source": "/(.*)",
-      "destination": {
-        "service": "interview-frontend"
-      }
+      "destination": "/index.html"
     }
   ]
 }
